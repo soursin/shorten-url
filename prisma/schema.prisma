@@ -18,3 +18,11 @@ model user{
   email       String     @unique
   password    String
 }
+
+model short{
+  id            String      @id @default(uuid())
+  shortUrl      String      @unique
+  longUrl       String      
+  topic         String?     
+  timeStamp     DateTime    @default(now())
+}

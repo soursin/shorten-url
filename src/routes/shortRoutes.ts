@@ -1,11 +1,7 @@
-import express , {Request , Response }  from "express"
+import {  Router }  from "express"
+import  {longToShort , shortToLong}  from "../controllers/shortController"
 
-export const shortenRoutes = express.Router()
+export const shortenRoutes = Router();
 
-shortenRoutes.post("/", (req : Request , res : Response) => {
-
-})
-
-shortenRoutes.get("/:alias", (req : Request , res : Response) => {
-
-})
+shortenRoutes.post("/", longToShort);
+shortenRoutes.get("/:alias" ,shortToLong);
