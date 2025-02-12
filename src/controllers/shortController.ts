@@ -64,8 +64,29 @@ export const longToShort =  async (req : Request , res : Response)   => {
 
 }
 
-export const shortToLong = (req : Request , res : Response) => {
-    res.status(200).json({
-        msg : "Hello Get"
-    })
+export const shortToLong = async (req : Request , res : Response) => {
+    try{
+        const alias = req.params.alias;
+
+        const response = await client.short.findFirst({
+            where : {
+                shortUrl : alias
+            }
+        })
+        if(response){
+            const userAgent = req.get('User-Agent');
+            const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+            console.log(userAgent)
+            console.log(ip)
+            res.redirect(302,response.longUrl);
+        }else{
+            res.status(404).json({
+                msg : "Invalid Alias Given"
+            })
+        }
+    }catch(e){
+        res.status(500).json({
+            msg : "Server Internal Error"
+        })
+    }
 }
